@@ -1,0 +1,4 @@
+1.解决ScrollView和WebView冲突
+2.获取view 的宽高                                            onWindowFocusChanged
+3.监听ScrollView的滑动
+4.用ScrollView实现防collapsingtoolbarlayout折叠效果
