@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.lscs.lgs.myscrollview.MyScrollView
+    <com.lscs.lgs.myscrollview.StickyScrollView
         android:id="@+id/scoll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,6 +29,7 @@
                     android:background="@mipmap/bg" />
 
                 <FrameLayout
+                    android:id="@+id/bg_fram"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_gravity="bottom"
@@ -42,17 +43,6 @@
                         android:layout_marginBottom="11dp"
                         android:layout_marginLeft="23dp"
                         android:src="@color/colorAccent" />
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="21dp"
-                        android:layout_marginTop="9dp"
-                        android:maxLines="1"
-                        android:text="桂林充满趣味与艺术的旅行"
-                        android:textColor="#FFF"
-                        android:textSize="20dp" />
 
                     <TextView
                         android:id="@+id/name"
@@ -76,6 +66,17 @@
                         android:textColor="#fff"
                         android:textSize="10dp" />
                 </FrameLayout>
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="21dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="30dp"
+                    android:maxLines="1"
+                    android:text="桂林"
+                    android:textColor="#FFF"
+                    android:textSize="20dp" />
             </FrameLayout>
 
             <WebView
@@ -83,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
-    </com.lscs.lgs.myscrollview.MyScrollView>
+    </com.lscs.lgs.myscrollview.StickyScrollView>
 
     <FrameLayout
         android:id="@+id/fram_title_bar"
@@ -97,7 +98,16 @@
             android:layout_gravity="center_vertical"
             android:padding="10dp"
             android:src="@drawable/ic_img_back" />
-
+        <TextView
+            android:id="@+id/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:maxLines="1"
+            android:visibility="gone"
+            android:text="桂林"
+            android:textColor="#FFF"
+            android:textSize="16dp" />
         <ImageView
             android:id="@+id/share"
             android:layout_width="43dp"
