@@ -17,13 +17,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lscs.lgs.annotationlib.ContentView;
+import com.lscs.lgs.basemodule.base.BaseActivity;
+
 import java.io.ObjectStreamException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+@ContentView(R.layout.activity_main)
+public class MainActivity extends BaseActivity {
     @BindView(R.id.fram_title_bar)
     View mParent;
     @BindView(R.id.top_parent)
@@ -58,32 +62,12 @@ public class MainActivity extends AppCompatActivity {
     private int mTitleWidth;
     private int mTitleHeight;
     private float mTitleX;
-    private float mTItleY;
     private float percent;
-    private int mFramHeight;
-    private boolean isToolbarShow = false;
-    private int left;
-    private int right;
-    private int top;
-    private int bottom;
     private float bigTextSize;
     private float smallTextSize;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        mWebView.loadUrl("https://github.com/Alan222?tab=repositories");
-        initEvent();
-    }
-
-    private void initEvent() {
+    protected void initEvent() {
         mScollView.setOnMyScollViewChangeListener(new StickyScrollView.OnMyScollViewChangeListener() {
             @Override
             public void onScrollChanged(int t) {
@@ -98,6 +82,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void initData() {
+        ButterKnife.bind(this);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+        mWebView.loadUrl("https://github.com/Alan222?tab=repositories");
     }
 
     /**
@@ -127,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         float endY = mToolBarHeight / 2.0f;
         mTitle.setTranslationX(percent * (endX - startX));
         mTitle.setTranslationY(percent * (endY - startY));
-        mTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX,bigTextSize-percent*(bigTextSize-smallTextSize));
+        mTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, bigTextSize - percent * (bigTextSize - smallTextSize));
     }
 
     @Override
@@ -149,9 +143,6 @@ public class MainActivity extends AppCompatActivity {
         mTitleWidth = mTitle.getWidth();
         mTitleHeight = mTitle.getHeight();
         mTitleX = mTitle.getX();
-        mTItleY = mTitle.getY();
-        mFramHeight = mFram.getHeight();
-
         bigTextSize = mTitle.getTextSize();
         smallTextSize = mTitle2.getTextSize();
     }

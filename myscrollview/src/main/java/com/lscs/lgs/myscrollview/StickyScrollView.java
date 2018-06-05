@@ -74,7 +74,7 @@ public class StickyScrollView extends ScrollView {
 
 	public StickyScrollView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-        mGestureDetector = new GestureDetector(context, new YScrollDetector());
+        mGestureDetector = new GestureDetector(context, new YScrollDetector());		//初始化手势识别器
         setup();
 
 
@@ -83,7 +83,7 @@ public class StickyScrollView extends ScrollView {
 		        R.styleable.StickyScrollView, defStyle, 0);
 
     		final float density = context.getResources().getDisplayMetrics().density;
-    		int defaultShadowHeightInPix = (int) (DEFAULT_SHADOW_HEIGHT * density + 0.5f);
+    		int defaultShadowHeightInPix = (int) (DEFAULT_SHADOW_HEIGHT * density + 0.5f);				//dp转px
 
     		mShadowHeight = a.getDimensionPixelSize(
         		R.styleable.StickyScrollView_stuckShadowHeight,
@@ -278,6 +278,13 @@ public class StickyScrollView extends ScrollView {
 		return super.onTouchEvent(ev);
 	}
 
+	/**
+	 * 滑动的时候调用
+	 * @param l
+	 * @param t
+	 * @param oldl
+	 * @param oldt
+	 */
 	@Override
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
 		super.onScrollChanged(l, t, oldl, oldt);
@@ -287,12 +294,15 @@ public class StickyScrollView extends ScrollView {
         }
 	}
 
+	/**
+	 *	处理sticky的view
+	 */
 	private void doTheStickyThing() {
 		View viewThatShouldStick = null;
 		View approachingView = null;
 		for(View v : stickyViews){
-			int viewTop = getTopForViewRelativeOnlyChild(v) - getScrollY() + (clippingToPadding ? 0 : getPaddingTop());
-			if(viewTop<=0){
+			int viewTop = getTopForViewRelativeOnlyChild(v) - getScrollY() + (clippingToPadding ? 0 : getPaddingTop());			//获取sticky的view离顶部是否小于0
+			if(viewTop<=0){																																													//如果小于0就给	viewThatShouldStick赋值开启粘性
 				if(viewThatShouldStick==null || viewTop>(getTopForViewRelativeOnlyChild(viewThatShouldStick) - getScrollY() + (clippingToPadding ? 0 : getPaddingTop()))){
 					viewThatShouldStick = v;
 				}
@@ -319,20 +329,20 @@ public class StickyScrollView extends ScrollView {
 
 	private void startStickingView(View viewThatShouldStick) {
 		currentlyStickingView = viewThatShouldStick;
-		if(getStringTagForView(currentlyStickingView).contains(FLAG_HASTRANSPARANCY)){
+		if(getStringTagForView(currentlyStickingView).contains(FLAG_HASTRANSPARANCY)){		//tag如果包含FLAG_HASTRANSPARANCY就隐藏
 			hideView(currentlyStickingView);
 		}
-		if(((String)currentlyStickingView.getTag()).contains(FLAG_NONCONSTANT)){
+		if(((String)currentlyStickingView.getTag()).contains(FLAG_NONCONSTANT)){			//如果tag包含FLAG_NONCONSTANT就开启重绘
 			post(invalidateRunnable);
 		}
 	}
 
 	private void stopStickingCurrentlyStickingView() {
-		if(getStringTagForView(currentlyStickingView).contains(FLAG_HASTRANSPARANCY)){
-			showView(currentlyStickingView);
+		if(getStringTagForView(currentlyStickingView).contains(FLAG_HASTRANSPARANCY)){			//获取tag中是否含有 hastransparancy 的tag
+			showView(currentlyStickingView);				//显示stickyView
 		}
 		currentlyStickingView = null;
-		removeCallbacks(invalidateRunnable);
+		removeCallbacks(invalidateRunnable);					//移除重绘
 	}
 
 	/**
@@ -346,12 +356,16 @@ public class StickyScrollView extends ScrollView {
 		if(currentlyStickingView!=null){
 			stopStickingCurrentlyStickingView();
 		}
-		stickyViews.clear();
+		stickyViews.clear();				//移除所有stickyview
 		findStickyViews(getChildAt(0));
 		doTheStickyThing();
 		invalidate();
 	}
 
+	/**
+	 * 获取所有的tag为sticky的view 加入队列
+	 * @param v
+	 */
 	private void findStickyViews(View v) {
 		if(v instanceof ViewGroup){
 			ViewGroup vg = (ViewGroup)v;
@@ -405,7 +419,7 @@ public class StickyScrollView extends ScrollView {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         //根据手势决定是否拦截子控件的onTouch事件
-        return super.onInterceptTouchEvent(ev) && mGestureDetector.onTouchEvent(ev);
+        return super.onInterceptTouchEvent(ev) && mGestureDetector.onTouchEvent(ev);		//Y轴拖动大于X轴时拦截事件
     }
 
     /**
@@ -413,7 +427,7 @@ public class StickyScrollView extends ScrollView {
      */
     class YScrollDetector extends GestureDetector.SimpleOnGestureListener {
         @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {		//滑动
             //当纵向滑动的距离大于横向滑动的距离的时候，返回true
             if (Math.abs(distanceY) > Math.abs(distanceX)) {
                 return true;

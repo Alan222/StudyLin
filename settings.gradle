@@ -1,1 +1,1 @@
-include ':app', ':myscrollview'
+include ':RecyclerView', ':myscrollview', ':basemodule', ':annotationLib'

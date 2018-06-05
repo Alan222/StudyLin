@@ -4,3 +4,6 @@
 4.用ScrollView实现防collapsingtoolbarlayout折叠效果
 5.textView setTextSize getTextSize 单位问题                  mTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX,mTitle.getTextSize());
 6.粘性的scrollview
+
+
+//view.setTranslationX(Y)的过程中  top,left的值是不会变的     发生改变的是translationX(Y) 和 x,y的值
